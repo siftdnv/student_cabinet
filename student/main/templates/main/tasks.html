@@ -1,0 +1,473 @@
+{% extends 'main/cabinet_base.html' %}
+{% load static %}
+
+{% block title %}Задания{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="header-content">
+        <div>
+            <h1><i class="fas fa-tasks"></i> Мои задания</h1>
+            <p class="text-muted">Активные задания и дедлайны</p>
+        </div>
+        <div class="tasks-stats">
+            <div class="stat-item">
+                <span class="stat-number urgent">3</span>
+                <span class="stat-label">Срочные</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number active">7</span>
+                <span class="stat-label">Активные</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number completed">18</span>
+                <span class="stat-label">Выполнено</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tasks-content">
+    <div class="tasks-section">
+        <h3><i class="fas fa-exclamation-circle"></i> Срочные задания <span class="badge urgent">3</span></h3>
+        <div class="tasks-list urgent-tasks">
+            <div class="task-card urgent">
+                <div class="task-header">
+                    <h4>Курсовой проект - Веб-приложение</h4>
+                    <span class="task-deadline urgent">Завтра, 10:00</span>
+                </div>
+                <div class="task-info">
+                    <span class="task-course">Веб-программирование</span>
+                    <span class="task-type">Проект</span>
+                    <span class="task-status">Не начато</span>
+                </div>
+                <div class="task-description">
+                    Разработать полнофункциональное веб-приложение на Django с использованием Bootstrap.
+                </div>
+                <div class="task-actions">
+                    <button class="btn-task primary">
+                        <i class="fas fa-play"></i> Начать
+                    </button>
+                    <button class="btn-task secondary">
+                        <i class="fas fa-download"></i> Материалы
+                    </button>
+                </div>
+            </div>
+
+            <div class="task-card urgent">
+                <div class="task-header">
+                    <h4>Лабораторная работа #5 - Базы данных</h4>
+                    <span class="task-deadline urgent">2 дня</span>
+                </div>
+                <div class="task-info">
+                    <span class="task-course">Базы данных</span>
+                    <span class="task-type">Лабораторная</span>
+                    <span class="task-status">В процессе</span>
+                </div>
+                <div class="task-description">
+                    Создание сложных SQL-запросов с использованием JOIN и подзапросов.
+                </div>
+                <div class="task-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 60%"></div>
+                    </div>
+                    <span>60% выполнено</span>
+                </div>
+                <div class="task-actions">
+                    <button class="btn-task primary">
+                        <i class="fas fa-edit"></i> Продолжить
+                    </button>
+                    <button class="btn-task secondary">
+                        <i class="fas fa-upload"></i> Сдать
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tasks-section">
+        <h3><i class="fas fa-clock"></i> Активные задания</h3>
+        <div class="tasks-grid">
+            <div class="task-card">
+                <div class="task-header">
+                    <h4>Практическая работа - Python</h4>
+                    <span class="task-deadline">5 дней</span>
+                </div>
+                <div class="task-info">
+                    <span class="task-course">Python разработка</span>
+                    <span class="task-type">Практическая</span>
+                    <span class="task-status">Не начато</span>
+                </div>
+                <div class="task-description">
+                    Реализация алгоритмов сортировки и поиска на Python.
+                </div>
+                <div class="task-actions">
+                    <button class="btn-task primary">
+                        <i class="fas fa-play"></i> Начать
+                    </button>
+                </div>
+            </div>
+
+            <div class="task-card">
+                <div class="task-header">
+                    <h4>Эссе по английскому</h4>
+                    <span class="task-deadline">7 дней</span>
+                </div>
+                <div class="task-info">
+                    <span class="task-course">Английский язык</span>
+                    <span class="task-type">Эссе</span>
+                    <span class="task-status">В процессе</span>
+                </div>
+                <div class="task-description">
+                    Написание эссе на тему "The Future of Technology" (500 слов).
+                </div>
+                <div class="task-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%"></div>
+                    </div>
+                    <span>30% выполнено</span>
+                </div>
+                <div class="task-actions">
+                    <button class="btn-task primary">
+                        <i class="fas fa-edit"></i> Продолжить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tasks-section">
+        <h3><i class="fas fa-check-circle"></i> Недавно выполненные</h3>
+        <div class="completed-tasks">
+            <div class="completed-task">
+                <div class="task-check">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="task-content">
+                    <strong>Лабораторная работа #4 - Django</strong>
+                    <span>Веб-программирование • Сдано 10.12.2024</span>
+                    <span class="task-grade excellent">5</span>
+                </div>
+            </div>
+            <div class="completed-task">
+                <div class="task-check">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="task-content">
+                    <strong>Контрольная работа - SQL</strong>
+                    <span>Базы данных • Сдано 08.12.2024</span>
+                    <span class="task-grade good">4</span>
+                </div>
+            </div>
+            <div class="completed-task">
+                <div class="task-check">
+                    <i class="fas fa-check"></i>
+                </div>
+                <div class="task-content">
+                    <strong>Домашнее задание - Алгоритмы</strong>
+                    <span>Python разработка • Сдано 05.12.2024</span>
+                    <span class="task-grade excellent">5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.tasks-stats {
+    display: flex;
+    gap: 30px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stat-number.urgent { color: #dc3545; }
+.stat-number.active { color: #4361ee; }
+.stat-number.completed { color: #28a745; }
+
+.stat-label {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.tasks-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.tasks-section {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.tasks-section h3 {
+    color: var(--primary);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.badge {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: normal;
+}
+
+.badge.urgent {
+    background: #dc3545;
+    color: white;
+}
+
+.tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.task-card {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.task-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.task-card.urgent {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 15px;
+}
+
+.task-header h4 {
+    margin: 0;
+    color: var(--dark);
+    flex: 1;
+    margin-right: 15px;
+}
+
+.task-deadline {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.task-deadline.urgent {
+    background: #dc3545;
+    color: white;
+}
+
+.task-deadline {
+    background: #ffc107;
+    color: #856404;
+}
+
+.task-info {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.task-course, .task-type, .task-status {
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    background: #f8f9fa;
+}
+
+.task-status {
+    background: #e2e3e5;
+    color: #6c757d;
+}
+
+.task-description {
+    color: #6c757d;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.task-progress {
+    margin-bottom: 15px;
+}
+
+.progress-bar {
+    background: #e9ecef;
+    border-radius: 10px;
+    height: 8px;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    background: var(--primary);
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-task {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-task.primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-task.secondary {
+    background: #f8f9fa;
+    color: var(--dark);
+    border: 1px solid #dee2e6;
+}
+
+.btn-task:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.completed-tasks {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.completed-task {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.completed-task:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.task-check {
+    width: 30px;
+    height: 30px;
+    background: #28a745;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.task-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.task-content strong {
+    color: var(--dark);
+}
+
+.task-content span {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.task-grade {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    align-self: flex-start;
+}
+
+.task-grade.excellent {
+    background: #d4edda;
+    color: #155724;
+}
+
+.task-grade.good {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.notification-badge {
+    background: var(--warning);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-task.primary').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const taskName = this.closest('.task-card').querySelector('h4').textContent;
+            alert(`Начало работы над заданием: ${taskName}`);
+        });
+    });
+
+    document.querySelectorAll('.btn-task.secondary').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const taskName = this.closest('.task-card').querySelector('h4').textContent;
+            if (this.querySelector('.fa-upload')) {
+                alert(`Сдача задания: ${taskName}`);
+            } else {
+                alert(`Скачивание материалов для: ${taskName}`);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

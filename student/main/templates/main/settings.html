@@ -1,0 +1,452 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Настройки - Учебный портал{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-9">
+        <div class="welcome-card p-4 p-md-5">
+            <!-- Заголовок -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 fw-bold text-primary mb-1">
+                        <i class="fas fa-cog me-2"></i>Настройки
+                    </h1>
+                    <p class="text-muted mb-0">Управление настройками вашего аккаунта</p>
+                </div>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Назад
+                </a>
+            </div>
+
+            <div class="row">
+                <!-- Боковое меню -->
+                <div class="col-md-3 mb-4">
+                    <div class="list-group">
+                        <a href="#profile" class="list-group-item list-group-item-action active" data-bs-toggle="list">
+                            <i class="fas fa-user me-2"></i>Профиль
+                        </a>
+                        <a href="#appearance" class="list-group-item list-group-item-action" data-bs-toggle="list">
+                            <i class="fas fa-palette me-2"></i>Внешний вид
+                        </a>
+                        <a href="#notifications" class="list-group-item list-group-item-action" data-bs-toggle="list">
+                            <i class="fas fa-bell me-2"></i>Уведомления
+                        </a>
+                        <a href="#privacy" class="list-group-item list-group-item-action" data-bs-toggle="list">
+                            <i class="fas fa-shield-alt me-2"></i>Безопасность
+                        </a>
+                        <a href="#system" class="list-group-item list-group-item-action" data-bs-toggle="list">
+                            <i class="fas fa-sliders-h me-2"></i>Система
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Содержимое настроек -->
+                <div class="col-md-9">
+                    <div class="tab-content">
+                        <!-- Настройки профиля -->
+                        <div class="tab-pane fade show active" id="profile">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-transparent">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-user me-2"></i>Настройки профиля
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <form method="post" action="{% url 'profile_update' %}">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label fw-semibold">Имя</label>
+                                                <input type="text" class="form-control" value="{{ user.first_name }}" readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label fw-semibold">Фамилия</label>
+                                                <input type="text" class="form-control" value="{{ user.last_name }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label fw-semibold">Email</label>
+                                                <input type="email" class="form-control" value="{{ user.email }}" readonly>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label fw-semibold">Логин</label>
+                                                <input type="text" class="form-control" value="{{ user.username }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="text-end">
+                                            <a href="{% url 'profile_update' %}" class="btn btn-primary">
+                                                <i class="fas fa-edit me-2"></i>Редактировать профиль
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Внешний вид -->
+                        <div class="tab-pane fade" id="appearance">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-transparent">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-palette me-2"></i>Настройки внешнего вида
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <label class="form-label fw-semibold">Тема оформления</label>
+                                        <div class="row g-3">
+                                            <div class="col-md-4">
+                                                <div class="form-check card-theme-option">
+                                                    <input class="form-check-input" type="radio" name="theme" id="themeLight" checked>
+                                                    <label class="form-check-label w-100" for="themeLight">
+                                                        <div class="card border">
+                                                            <div class="card-body text-center">
+                                                                <i class="fas fa-sun fa-2x text-warning mb-2"></i>
+                                                                <h6>Светлая</h6>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-check card-theme-option">
+                                                    <input class="form-check-input" type="radio" name="theme" id="themeDark">
+                                                    <label class="form-check-label w-100" for="themeDark">
+                                                        <div class="card border">
+                                                            <div class="card-body text-center">
+                                                                <i class="fas fa-moon fa-2x text-secondary mb-2"></i>
+                                                                <h6>Темная</h6>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-check card-theme-option">
+                                                    <input class="form-check-input" type="radio" name="theme" id="themeAuto">
+                                                    <label class="form-check-label w-100" for="themeAuto">
+                                                        <div class="card border">
+                                                            <div class="card-body text-center">
+                                                                <i class="fas fa-adjust fa-2x text-primary mb-2"></i>
+                                                                <h6>Авто</h6>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Размер шрифта</label>
+                                        <select class="form-select" id="fontSize">
+                                            <option value="small">Маленький</option>
+                                            <option value="medium" selected>Средний</option>
+                                            <option value="large">Большой</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="compactMode" checked>
+                                        <label class="form-check-label" for="compactMode">Компактный режим</label>
+                                    </div>
+
+                                    <button class="btn btn-primary" onclick="saveAppearanceSettings()">
+                                        <i class="fas fa-save me-2"></i>Сохранить настройки
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Уведомления -->
+                        <div class="tab-pane fade" id="notifications">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-transparent">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-bell me-2"></i>Настройки уведомлений
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <h6 class="fw-semibold mb-3">Типы уведомлений</h6>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notifyGrades" checked>
+                                            <label class="form-check-label" for="notifyGrades">Новые оценки</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notifySchedule" checked>
+                                            <label class="form-check-label" for="notifySchedule">Изменения в расписании</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notifyDeadlines">
+                                            <label class="form-check-label" for="notifyDeadlines">Напоминания о дедлайнах</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="notifyNews" checked>
+                                            <label class="form-check-label" for="notifyNews">Новости университета</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h6 class="fw-semibold mb-3">Способы получения</h6>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="notifyEmail" checked>
+                                            <label class="form-check-label" for="notifyEmail">Email уведомления</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="notifyBrowser">
+                                            <label class="form-check-label" for="notifyBrowser">Браузерные уведомления</label>
+                                        </div>
+                                    </div>
+
+                                    <button class="btn btn-primary" onclick="saveNotificationSettings()">
+                                        <i class="fas fa-save me-2"></i>Сохранить настройки
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Безопасность -->
+                        <div class="tab-pane fade" id="privacy">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-transparent">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-shield-alt me-2"></i>Настройки безопасности
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <h6 class="fw-semibold mb-3">Безопасность аккаунта</h6>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-outline-primary text-start" onclick="changePassword()">
+                                                <i class="fas fa-key me-2"></i>Сменить пароль
+                                            </button>
+                                            <button class="btn btn-outline-warning text-start" onclick="setup2FA()">
+                                                <i class="fas fa-mobile-alt me-2"></i>Двухфакторная аутентификация
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h6 class="fw-semibold mb-3">Конфиденциальность</h6>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="showProfile" checked>
+                                            <label class="form-check-label" for="showProfile">Показывать профиль другим студентам</label>
+                                        </div>
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="showGrades">
+                                            <label class="form-check-label" for="showGrades">Показывать успеваемость</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="alert alert-warning">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        <strong>Внимание!</strong> Последний вход в систему: {{ user.last_login|date:"d.m.Y H:i" }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Системные настройки -->
+                        <div class="tab-pane fade" id="system">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-header bg-transparent">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-sliders-h me-2"></i>Системные настройки
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <h6 class="fw-semibold mb-3">Обновление данных</h6>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-outline-primary text-start" onclick="updateSchedule()">
+                                                <i class="fas fa-sync me-2"></i>Обновить расписание
+                                            </button>
+                                            <button class="btn btn-outline-info text-start" onclick="clearCache()">
+                                                <i class="fas fa-broom me-2"></i>Очистить кэш
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h6 class="fw-semibold mb-3">Экспорт данных</h6>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-outline-success text-start" onclick="exportGrades()">
+                                                <i class="fas fa-file-export me-2"></i>Экспорт оценок
+                                            </button>
+                                            <button class="btn btn-outline-secondary text-start" onclick="exportSchedule()">
+                                                <i class="fas fa-calendar-export me-2"></i>Экспорт расписания
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <h6 class="fw-semibold mb-3">Информация о системе</h6>
+                                        <div class="row g-3">
+                                            <div class="col-sm-6">
+                                                <small class="text-muted">Версия приложения</small>
+                                                <p class="mb-0 fw-semibold">1.0.0</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <small class="text-muted">Последнее обновление</small>
+                                                <p class="mb-0 fw-semibold">26.10.2025</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card-theme-option .form-check-input {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.card-theme-option .card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card-theme-option .form-check-input:checked + .card {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.card-theme-option .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+</style>
+
+<script>
+function saveAppearanceSettings() {
+    const theme = document.querySelector('input[name="theme"]:checked').value;
+    const fontSize = document.getElementById('fontSize').value;
+    const compactMode = document.getElementById('compactMode').checked;
+    
+    // Сохраняем настройки в localStorage
+    localStorage.setItem('appTheme', theme);
+    localStorage.setItem('appFontSize', fontSize);
+    localStorage.setItem('appCompactMode', compactMode);
+    
+    showToast('Настройки внешнего вида сохранены!', 'success');
+    applyAppearanceSettings();
+}
+
+function applyAppearanceSettings() {
+    const theme = localStorage.getItem('appTheme') || 'light';
+    const fontSize = localStorage.getItem('appFontSize') || 'medium';
+    const compactMode = localStorage.getItem('appCompactMode') === 'true';
+    
+    // Применяем настройки темы
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    // Применяем размер шрифта
+    document.documentElement.style.fontSize = 
+        fontSize === 'small' ? '14px' : 
+        fontSize === 'large' ? '18px' : '16px';
+    
+    // Применяем компактный режим
+    if (compactMode) {
+        document.body.classList.add('compact-mode');
+    } else {
+        document.body.classList.remove('compact-mode');
+    }
+}
+
+function saveNotificationSettings() {
+    const settings = {
+        grades: document.getElementById('notifyGrades').checked,
+        schedule: document.getElementById('notifySchedule').checked,
+        deadlines: document.getElementById('notifyDeadlines').checked,
+        news: document.getElementById('notifyNews').checked,
+        email: document.getElementById('notifyEmail').checked,
+        browser: document.getElementById('notifyBrowser').checked
+    };
+    
+    localStorage.setItem('notificationSettings', JSON.stringify(settings));
+    showToast('Настройки уведомлений сохранены!', 'success');
+}
+
+function changePassword() {
+    showToast('Функция смены пароля в разработке', 'info');
+}
+
+function setup2FA() {
+    showToast('Двухфакторная аутентификация в разработке', 'info');
+}
+
+function updateSchedule() {
+    showToast('Расписание обновляется...', 'info');
+    // Здесь будет вызов API для обновления расписания
+    setTimeout(() => showToast('Расписание успешно обновлено!', 'success'), 2000);
+}
+
+function clearCache() {
+    localStorage.removeItem('appTheme');
+    localStorage.removeItem('appFontSize');
+    localStorage.removeItem('appCompactMode');
+    localStorage.removeItem('notificationSettings');
+    showToast('Кэш очищен!', 'success');
+    location.reload();
+}
+
+function exportGrades() {
+    showToast('Экспорт оценок в разработке', 'info');
+}
+
+function exportSchedule() {
+    showToast('Экспорт расписания в разработке', 'info');
+}
+
+function showToast(message, type = 'info') {
+    // Создаем простой toast
+    const toast = document.createElement('div');
+    toast.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+    toast.style.cssText = 'top: 20px; right: 20px; z-index: 1060; min-width: 300px;';
+    toast.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+// Применяем настройки при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    applyAppearanceSettings();
+    
+    // Загружаем сохраненные настройки уведомлений
+    const savedNotifications = localStorage.getItem('notificationSettings');
+    if (savedNotifications) {
+        const settings = JSON.parse(savedNotifications);
+        document.getElementById('notifyGrades').checked = settings.grades;
+        document.getElementById('notifySchedule').checked = settings.schedule;
+        document.getElementById('notifyDeadlines').checked = settings.deadlines;
+        document.getElementById('notifyNews').checked = settings.news;
+        document.getElementById('notifyEmail').checked = settings.email;
+        document.getElementById('notifyBrowser').checked = settings.browser;
+    }
+    
+    // Загружаем сохраненную тему
+    const savedTheme = localStorage.getItem('appTheme');
+    if (savedTheme) {
+        document.getElementById(`theme${savedTheme.charAt(0).toUpperCase() + savedTheme.slice(1)}`).checked = true;
+    }
+});
+</script>
+{% endblock %}

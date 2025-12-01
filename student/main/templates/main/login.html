@@ -1,0 +1,84 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Вход в систему - Учебный портал{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="welcome-card p-4">
+            <div class="text-center mb-4">
+                <i class="fas fa-graduation-cap fa-3x text-primary mb-3"></i>
+                <h2 class="fw-bold">Вход в систему</h2>
+                <p class="text-muted">Добро пожаловать назад!</p>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Имя пользователя</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" name="username" class="form-control" placeholder="Введите ваш логин" required>
+                    </div>
+                    {% if form.username.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.username.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Пароль</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="password" name="password" class="form-control" placeholder="Введите ваш пароль" required>
+                    </div>
+                    {% if form.password.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.password.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary w-100 py-2 mb-3 fw-semibold">
+                    <i class="fas fa-sign-in-alt me-2"></i>Войти в систему
+                </button>
+
+                <div class="text-center">
+                    <p class="mb-2">Нет аккаунта?
+                        <a href="{% url 'register' %}" class="text-decoration-none fw-bold">Зарегистрироваться</a>
+                    </p>
+                    <p class="mb-0">
+                        <a href="{% url 'home' %}" class="text-decoration-none">
+                            <i class="fas fa-arrow-left me-1"></i>На главную
+                        </a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

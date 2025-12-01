@@ -1,0 +1,442 @@
+<!-- templates/main/record_book.html -->
+{% extends 'main/cabinet_base.html' %}
+{% load static %}
+
+{% block title %}Зачётная книжка{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="header-content">
+        <div>
+            <h1><i class="fas fa-file-invoice"></i> Зачётная книжка</h1>
+            <p class="text-muted">Учебный прогресс и результаты сессий</p>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-outline-primary">
+                <i class="fas fa-print"></i> Печать
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Статистика -->
+<div class="stats-grid mb-4">
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-book-open text-primary"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{ total_subjects }}</h3>
+            <span>Всего дисциплин</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-check-circle text-success"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{ passed_subjects }}</h3>
+            <span>Сдано дисциплин</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-chart-line text-info"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{ avg_grade }}</h3>
+            <span>Средний балл</span>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-star text-warning"></i>
+        </div>
+        <div class="stat-info">
+            <h3>{{ excellent_count }}</h3>
+            <span>Отличных оценок</span>
+        </div>
+    </div>
+</div>
+
+<!-- Прогресс -->
+<div class="progress-card mb-4">
+    <div class="progress-header">
+        <h5><i class="fas fa-tasks me-2"></i>Общий прогресс обучения</h5>
+        <span>{{ completion_percentage }}%</span>
+    </div>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: {{ completion_percentage }}%"></div>
+    </div>
+</div>
+
+<!-- Семестры -->
+<div class="semesters-container">
+    {% for stats in semester_stats %}
+    <div class="semester-card mb-4">
+        <div class="semester-header">
+            <h4>
+                <i class="fas fa-graduation-cap me-2"></i>
+                {{ stats.record_book.academic_year }} • {{ stats.record_book.semester }} семестр
+            </h4>
+            <span class="badge {% if stats.passed == stats.total %}bg-success{% else %}bg-warning{% endif %}">
+                {{ stats.total }} дисциплин
+            </span>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Дисциплина</th>
+                        <th>Вид контроля</th>
+                        <th>Преподаватель</th>
+                        <th>Дата сдачи</th>
+                        <th>Оценка</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in stats.entries %}
+                    <tr class="{% if entry.passed %}table-success{% else %}table-warning{% endif %}">
+                        <td>
+                            <strong>{{ entry.course.name }}</strong>
+                            <br>
+                            <small class="text-muted">{{ entry.course.code }}</small>
+                        </td>
+                        <td>
+                            <span class="badge
+                                {% if entry.exam_type == 'экзамен' %}bg-primary
+                                {% elif entry.exam_type == 'зачёт' %}bg-success
+                                {% else %}bg-info{% endif %}">
+                                {{ entry.exam_type }}
+                            </span>
+                        </td>
+                        <td>{{ entry.teacher }}</td>
+                        <td>{{ entry.date|date:"d.m.Y" }}</td>
+                        <td>
+                            {% if entry.grade %}
+                                <span class="grade-badge grade-{{ entry.grade }}">
+                                    {{ entry.grade }}
+                                </span>
+                            {% else %}
+                                <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if entry.passed %}
+                                <span class="status-badge passed">
+                                    <i class="fas fa-check-circle"></i> Сдано
+                                </span>
+                            {% else %}
+                                <span class="status-badge not-passed">
+                                    <i class="fas fa-clock"></i> Не сдано
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Статистика семестра -->
+        <div class="semester-stats">
+            <div class="stats-chips">
+                <span class="stat-chip">
+                    <i class="fas fa-check text-success"></i>
+                    Сдано: {{ stats.passed }}
+                </span>
+                <span class="stat-chip">
+                    <i class="fas fa-chart-bar text-info"></i>
+                    Средний балл: {{ stats.avg_grade|default:"—" }}
+                </span>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">
+        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+        <h4>Зачётная книжка пуста</h4>
+        <p class="text-muted">Здесь будут отображаться ваши учебные достижения</p>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Итоговая статистика -->
+<div class="summary-card">
+    <h5><i class="fas fa-chart-pie me-2"></i>Итоговая статистика</h5>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="summary-item">
+                <span class="summary-label">Общее количество дисциплин:</span>
+                <span class="summary-value">{{ total_subjects }}</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Средний балл за все время:</span>
+                <span class="summary-value">{{ avg_grade }}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="summary-item">
+                <span class="summary-label">Процент успеваемости:</span>
+                <span class="summary-value">{{ completion_percentage }}%</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Количество семестров:</span>
+                <span class="summary-value">{{ semester_stats|length }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    opacity: 0.8;
+}
+
+.stat-info h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #4361ee;
+}
+
+.stat-info span {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.progress-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.progress-header h5 {
+    margin: 0;
+    color: #4361ee;
+}
+
+.progress {
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: linear-gradient(135deg, #4361ee, #3a0ca3);
+    transition: width 0.5s ease;
+}
+
+.semester-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.semester-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.semester-header h4 {
+    margin: 0;
+    color: #4361ee;
+    display: flex;
+    align-items: center;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: #495057;
+    background: #f8f9fa;
+}
+
+.grade-badge {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    color: white;
+}
+
+.grade-5 { background: #28a745; }
+.grade-4 { background: #17a2b8; }
+.grade-3 { background: #ffc107; color: #000; }
+.grade-2 { background: #dc3545; }
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-badge.passed {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge.not-passed {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.semester-stats {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.stats-chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.stat-chip {
+    padding: 6px 12px;
+    background: #f8f9fa;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    color: #495057;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.summary-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.summary-card h5 {
+    color: #4361ee;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    color: #6c757d;
+}
+
+.summary-value {
+    font-weight: 600;
+    color: #4361ee;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .semester-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+
+    .stats-chips {
+        flex-direction: column;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Анимация появления карточек
+    const cards = document.querySelectorAll('.semester-card, .stat-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            card.style.transition = 'all 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+
+    // Подсветка текущего семестра
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+
+    // Определяем текущий семестр (1: сентябрь-январь, 2: февраль-июнь)
+    const currentSemester = currentMonth >= 2 && currentMonth <= 7 ? 2 : 1;
+
+    document.querySelectorAll('.semester-card').forEach(card => {
+        const header = card.querySelector('.semester-header h4');
+        if (header && header.textContent.includes(`${currentSemester} семестр`)) {
+            card.style.borderLeft = '4px solid #4361ee';
+        }
+    });
+});
+</script>
+{% endblock %}

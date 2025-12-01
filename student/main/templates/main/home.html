@@ -1,0 +1,72 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Учебный портал УУНиТ{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center min-vh-100">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="welcome-card p-5 text-center">
+            <i class="fas fa-graduation-cap fa-4x text-primary mb-4"></i>
+            <h1 class="display-4 fw-bold text-primary mb-3">Учебный портал УУНиТ</h1>
+            <p class="lead text-muted mb-4">
+                Современная платформа для управления учебным процессом.
+                Доступ к расписанию, успеваемости и учебным материалам в одном месте.
+            </p>
+
+            <div class="row g-3 mb-5">
+                <div class="col-md-4">
+                    <div class="card border-0 bg-light">
+                        <div class="card-body">
+                            <i class="fas fa-calendar-alt fa-2x text-primary mb-2"></i>
+                            <h5>Расписание</h5>
+                            <p class="small text-muted">Актуальное расписание занятий</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 bg-light">
+                        <div class="card-body">
+                            <i class="fas fa-chart-line fa-2x text-success mb-2"></i>
+                            <h5>Успеваемость</h5>
+                            <p class="small text-muted">Отслеживание оценок и прогресса</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 bg-light">
+                        <div class="card-body">
+                            <i class="fas fa-book fa-2x text-warning mb-2"></i>
+                            <h5>Курсы</h5>
+                            <p class="small text-muted">Доступ к учебным материалам</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% if user.is_authenticated %}
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg px-4 me-md-2">
+                        <i class="fas fa-tachometer-alt me-2"></i>Перейти в кабинет
+                    </a>
+                    <form method="post" action="{% url 'logout' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger btn-lg px-4">
+                            <i class="fas fa-sign-out-alt me-2"></i>Выйти
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4 me-md-2">
+                        <i class="fas fa-sign-in-alt me-2"></i>Войти в систему
+                    </a>
+                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="fas fa-user-plus me-2"></i>Зарегистрироваться
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
